@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+.env*
+.vercel
+*.local
+*.md
+test-results
+playwright-report
+shots
+/gallery
+.fallow
+.wrangler
+.dev.vars
