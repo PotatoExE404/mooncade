@@ -83,6 +83,21 @@ test("keyboard: the skip link and focus rings work", async ({ page }, info) => {
   await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
 });
 
+test("insert coin plays the same effect with reduced motion on", async ({ browser }) => {
+  const ctx = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await ctx.newPage();
+  await page.goto("/");
+  await page.getByRole("button", { name: "Insert coin and choose a game" }).click();
+  await expect(page.getByText("CREDIT 01")).toBeVisible();
+  expect(page.url()).not.toContain("/play");
+  expect(await page.locator(".coin-dropping").evaluate((e) => getComputedStyle(e).animationName)).toBe("coin-drop");
+  const zoom = page.locator(".crt-zoom");
+  await zoom.waitFor({ state: "attached" });
+  expect(await zoom.evaluate((e) => getComputedStyle(e).animationName)).toBe("crt-zoom");
+  await page.waitForURL("**/play");
+  await ctx.close();
+});
+
 test("reduced motion: shake and flashes default off", async ({ browser }) => {
   const ctx = await browser.newContext({ reducedMotion: "reduce" });
   const page = await ctx.newPage();

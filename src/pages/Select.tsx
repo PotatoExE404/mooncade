@@ -34,7 +34,6 @@ export function Select() {
     <div className={`mx-auto max-w-7xl px-3 py-8 sm:px-6 ${fromCoin ? "power-on" : ""}`}>
       <div className="billboard mx-auto mb-8 max-w-2xl px-6 py-4 text-center">
         <h1 className="led font-pixel text-4xl sm:text-5xl">SELECT YOUR GAME</h1>
-        <p className="led led-green mt-1 text-lg">← → choose · ENTER play</p>
       </div>
       <ul className="grid gap-6 md:grid-cols-3" role="listbox" aria-label="Games">
         {GAME_ORDER.map((g, i) => {

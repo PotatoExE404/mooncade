@@ -15,23 +15,19 @@ export function HowToPlay({ game, wide = false, className = "" }: { game: GameId
 
   const head = (
     <div>
-      <p className="meta text-muted">How to play</p>
-      <p className="mt-1.5 font-pixel text-[1.4rem] leading-[1.12]">{how.goal}</p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <span className="rounded-full bg-ink px-3 py-1 font-mono text-[11px] font-semibold tracking-wider text-white uppercase">{info.format}</span>
-        {best !== undefined && (
-          <span className="rounded-full border-2 border-line/15 px-3 py-0.5 font-mono text-[11px] font-semibold tracking-wider uppercase">
-            Best <span className="font-pixel text-sm tracking-normal">{formatScore(game, best)}</span>
-          </span>
-        )}
-      </div>
+      <p className="htp-label">How to play</p>
+      <p className="htp-goal">{how.goal}</p>
+      <p className="htp-meta">
+        {info.format}
+        {best !== undefined && <> · Best {formatScore(game, best)}</>}
+      </p>
     </div>
   );
   const steps = (
-    <ol className="space-y-2">
+    <ol className="space-y-1.5">
       {how.steps.map((s, i) => (
-        <li key={i} className="flex items-center gap-3">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-accent font-pixel text-base text-accent-ink">{i + 1}</span>
+        <li key={i} className="flex items-baseline gap-3">
+          <span className="htp-num">{i + 1}</span>
           <span className="leading-snug">{s}</span>
         </li>
       ))}
@@ -39,15 +35,15 @@ export function HowToPlay({ game, wide = false, className = "" }: { game: GameId
   );
   const pickups = how.pickups.length > 0 && (
     <Section label="Pickups">
-      <ul className="grid grid-cols-2 gap-x-3 gap-y-2.5">
+      <ul className="grid grid-cols-2 gap-x-3 gap-y-2">
         {how.pickups.map((p) => (
           <li key={p.name} className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-ink text-white">
+            <span className="htp-icon">
               <Icon name={p.icon} />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block text-sm font-semibold">{p.name}</span>
-              <span className="htp-what block truncate text-xs text-muted">{p.what}</span>
+              <span className="block text-sm">{p.name}</span>
+              <span className="htp-what htp-dim block truncate text-xs">{p.what}</span>
             </span>
           </li>
         ))}
@@ -87,17 +83,16 @@ export function NextCard({ tier, className = "" }: { tier: Tier; className?: str
   return (
     <div className={`next-card ${className}`} style={{ ["--tier" as string]: RARITY_COLOR[tier.rarity] }}>
       <span className="next-card-gem" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 16 16" shapeRendering="crispEdges" fill="currentColor">
-          <path d="M4 2h8v2h2v3h-1v2h-1v2h-1v2H9v1H7v-1H5v-2H4V9H3V7H2V4h2z" opacity=".85" />
+        <svg width="14" height="14" viewBox="0 0 16 16" shapeRendering="crispEdges" fill="currentColor">
+          <path d="M4 2h8v2h2v3h-1v2h-1v2h-1v2H9v1H7v-1H5v-2H4V9H3V7H2V4h2z" />
         </svg>
       </span>
-      <span className="min-w-0 leading-tight">
-        <span className="flex items-baseline gap-2">
-          <span className="meta text-[11px] text-muted">Next card</span>
-          <span className="meta text-[11px] font-bold" style={{ color: "color-mix(in srgb, var(--tier) 55%, #2a2218)" }}>{tier.rarity}</span>
+      <span className="min-w-0 flex-1 leading-tight">
+        <span className="next-card-label">
+          Next card · {tier.rarity}
         </span>
         <span className="block font-pixel text-lg leading-tight">{tier.name}</span>
-        <span className="block text-sm text-muted">{tier.how}</span>
+        <span className="next-card-how block text-sm">{tier.how}</span>
       </span>
     </div>
   );
@@ -105,15 +100,15 @@ export function NextCard({ tier, className = "" }: { tier: Tier; className?: str
 
 function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="border-t border-line/10 pt-3">
-      <p className="meta mb-2 text-muted">{label}</p>
+    <div className="htp-section">
+      <p className="htp-label mb-2">{label}</p>
       {children}
     </div>
   );
 }
 
 function Key({ children }: { children: ReactNode }) {
-  return <kbd className="inline-grid h-7 min-w-7 place-items-center rounded-md border border-line/25 bg-white px-1.5 font-mono text-[11px] font-bold shadow-[0_2px_0_rgba(42,34,24,0.25)]">{children}</kbd>;
+  return <kbd className="htp-key">{children}</kbd>;
 }
 
 function Controls({ game }: { game: GameId }) {
@@ -128,7 +123,7 @@ function Controls({ game }: { game: GameId }) {
       {[...rows, [<><Key>R</Key><Key>Esc</Key><Key>M</Key></>, "Restart · pause · mute"] as [ReactNode, string]].map(([keys, what], i) => (
         <li key={i} className={`flex items-center gap-2 text-sm ${i === rows.length ? "htp-extra" : ""}`}>
           <span className="flex gap-1">{keys}</span>
-          <span className="text-muted">{what}</span>
+          <span className="htp-dim">{what}</span>
         </li>
       ))}
     </ul>

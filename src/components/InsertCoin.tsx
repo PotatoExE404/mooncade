@@ -11,15 +11,10 @@ export function InsertCoin() {
   const [stage, setStage] = useState<"idle" | "drop" | "credit" | "zoom">("idle");
   const coin = useRef<HTMLSpanElement>(null);
   const slot = useRef<HTMLDivElement>(null);
-  const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const insert = () => {
     if (stage !== "idle") return;
     audio.unlock();
-    if (reduced) {
-      navigate("/play");
-      return;
-    }
     const c = coin.current!.getBoundingClientRect(), s = slot.current!.getBoundingClientRect();
     coin.current!.style.setProperty("--slot-dx", `${s.left + s.width / 2 - (c.left + c.width / 2)}px`);
     coin.current!.style.setProperty("--slot-dy", `${s.top + 30 - (c.top + c.height / 2)}px`);
