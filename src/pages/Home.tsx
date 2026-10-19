@@ -6,6 +6,7 @@ import { CardView } from "../components/CardView";
 import { Coin } from "../components/Coin";
 import { Head } from "../components/Head";
 import { InsertCoin } from "../components/InsertCoin";
+import { TokenAddress } from "../components/TokenAddress";
 import { Win } from "../components/Win";
 import { GAMES } from "../games/registry";
 import type { CardDto } from "../cards/types";
@@ -103,12 +104,15 @@ export function Home() {
       <section className="relative grid items-center gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         <InsertCoin />
         <div className="relative space-y-5">
-          <div className="pointer-events-none flex gap-3 lg:absolute lg:-top-6 lg:right-2" aria-hidden="true">
-            {(["sol", "eth", "robin"] as ThemeId[]).map((t, i) => (
-              <span key={t} className="bob" style={{ animationDelay: `${i * 0.35}s` }}>
-                <Coin theme={t} size={52} spin />
-              </span>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-3 lg:absolute lg:inset-x-0 lg:-top-6 lg:pr-2">
+            <TokenAddress />
+            <div className="pointer-events-none flex gap-3" aria-hidden="true">
+              {(["sol", "eth", "robin"] as ThemeId[]).map((t, i) => (
+                <span key={t} className="bob" style={{ animationDelay: `${i * 0.35}s` }}>
+                  <Coin theme={t} size={52} spin />
+                </span>
+              ))}
+            </div>
           </div>
           <p className="desk max-w-[40ch] text-xl leading-relaxed font-semibold sm:text-2xl lg:pt-10">
             Three arcade classics you already know how to play. Kick back, beat your high score, and show it off.
